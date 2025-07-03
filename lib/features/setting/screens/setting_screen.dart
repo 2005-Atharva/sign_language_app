@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_task_sign_app/core/constants/assets.dart';
 import 'package:flutter_task_sign_app/features/setting/screens/widget_options.dart';
 import 'package:lottie/lottie.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
@@ -90,6 +91,16 @@ class SettingScreen extends StatelessWidget {
                     ),
                   );
                 },
+              );
+            },
+          ),
+
+          SettingOptions(
+            icon: Icons.share,
+            text: 'Invite Friends',
+            onTap: () async {
+              await Share.share(
+                '🐨 Learn sign language with Koko! \nDownload now:\nhttps://github.com/2005-Atharva/sign_language_app',
               );
             },
           ),
