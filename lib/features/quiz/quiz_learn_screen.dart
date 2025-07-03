@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_task_sign_app/data/models/category_model.dart';
 import 'package:flutter_task_sign_app/features/quiz/provider/level_provider.dart';
@@ -23,17 +24,26 @@ class _LearningScreenState extends State<LearningScreen2> {
   int currentIndex = 0;
   bool showFeedback = false;
   String feedbackText = '';
+  final AudioPlayer _player = AudioPlayer();
+
+  void playAnswerSound(bool isCorrect) async {
+    await _player.stop(); // Stop if already playing
+    final path = isCorrect ? 'images/ding.mp3' : 'images/error.mp3';
+    await _player.play(AssetSource(path));
+  }
 
   void checkAnswer(String selected) {
     final correct = widget.questions[currentIndex].correctAnswer;
     final isCorrect = selected == correct;
+
+    playAnswerSound(isCorrect);
 
     setState(() {
       showFeedback = true;
       feedbackText = isCorrect ? '✅ Correct!' : '❌ Try Again!';
     });
 
-    Future.delayed(Duration(seconds: 1), () async {
+    Future.delayed(Duration(seconds: 2), () async {
       if (currentIndex < widget.questions.length - 1) {
         setState(() {
           currentIndex++;
@@ -64,6 +74,12 @@ class _LearningScreenState extends State<LearningScreen2> {
         );
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _player.dispose();
+    super.dispose();
   }
 
   @override
