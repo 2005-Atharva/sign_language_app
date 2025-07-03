@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_sign_app/core/constants/assets.dart';
 import 'package:flutter_task_sign_app/data/data_store/quiz_list.dart';
-import 'package:flutter_task_sign_app/features/home/screens/learning_screen.dart';
+import 'package:flutter_task_sign_app/features/quiz/provider/level_provider.dart';
+import 'package:flutter_task_sign_app/features/quiz/quiz_learn_screen.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -43,11 +45,11 @@ class _QuizScreenState extends State<QuizScreen> {
       'image': 'assets/icons/emotions.png',
     },
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      // backgroundColor: Color,
       appBar: AppBar(
         leading: Lottie.asset(Assets.lottieIntro, height: 32, width: 32),
         title: Text("Practice Signs With Koko"),
@@ -64,37 +66,62 @@ class _QuizScreenState extends State<QuizScreen> {
           ),
           itemBuilder: (context, index) {
             final category = categories[index];
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => LearningScreen(
-                      questions: category['questions'],
-                      categoryTitle: category['title'],
+            return Consumer<LevelProvider>(
+              builder: (ctx, levelProv, _) {
+                final unlocked = levelProv.isUnlocked(index);
+                return GestureDetector(
+                  onTap: unlocked
+                      ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => LearningScreen2(
+                                questions: category['questions'],
+                                categoryTitle: category['title'],
+                                levelIndex: index,
+                              ),
+                            ),
+                          );
+                        }
+                      : null,
+                  child: Card(
+                    color: unlocked
+                        ? Colors.blue.shade100
+                        : Colors.grey.shade300,
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/icons/quiz.png', scale: 6),
+                              SizedBox(height: 4),
+                              Text(
+                                category['title'],
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        if (!unlocked)
+                          Positioned.fill(
+                            child: Container(
+                              color: Colors.white.withOpacity(0.7),
+                              child: Icon(
+                                Icons.lock,
+                                size: 48,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                 );
               },
-              child: Card(
-                color: Colors.blue.shade100,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/icons/quiz.png', scale: 6),
-                      SizedBox(height: 4),
-                      Text(
-                        category['title'],
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             );
           },
         ),
