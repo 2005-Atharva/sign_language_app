@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_sign_app/core/theme/dark_theme.dart';
 import 'package:flutter_task_sign_app/core/theme/light_theme.dart';
+import 'package:flutter_task_sign_app/features/chat/chat_provider.dart';
 import 'package:flutter_task_sign_app/features/home/provider/home_provider.dart';
 import 'package:flutter_task_sign_app/features/onbording/screens/splash_screen.dart';
 import 'package:flutter_task_sign_app/features/quiz/provider/level_provider.dart';
@@ -14,6 +15,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => HomeProvider()),
         ChangeNotifierProvider(create: (context) => NavigationProvider()),
         ChangeNotifierProvider(create: (context) => LevelProvider()),
+        ChangeNotifierProvider(create: (context) => KokoChatProvider()),
       ],
 
       child: const MyApp(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_task_sign_app/core/constants/assets.dart';
+import 'package:flutter_task_sign_app/features/chat/chat_screen.dart';
 import 'package:flutter_task_sign_app/features/setting/screens/widget_options.dart';
 import 'package:lottie/lottie.dart';
 import 'package:share_plus/share_plus.dart';
@@ -52,6 +53,7 @@ class SettingScreen extends StatelessWidget {
               );
             },
           ),
+          SizedBox(height: 2),
 
           // About tile
           SettingOptions(
@@ -94,6 +96,7 @@ class SettingScreen extends StatelessWidget {
               );
             },
           ),
+          SizedBox(height: 2),
 
           SettingOptions(
             icon: Icons.share,
@@ -101,6 +104,17 @@ class SettingScreen extends StatelessWidget {
             onTap: () async {
               await Share.share(
                 '🐨 Learn sign language with Koko! \nDownload now:\nhttps://github.com/2005-Atharva/sign_language_app',
+              );
+            },
+          ),
+          SizedBox(height: 2),
+          SettingOptions(
+            icon: Icons.chat,
+            text: 'Chat with Koko',
+            onTap: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => KokoChatScreen()),
               );
             },
           ),

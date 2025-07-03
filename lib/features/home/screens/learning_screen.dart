@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_task_sign_app/core/constants/assets.dart';
 import 'package:flutter_task_sign_app/data/models/category_model.dart';
@@ -17,10 +18,19 @@ class _LearningScreenState extends State<LearningScreen> {
   int currentIndex = 0;
   bool showFeedback = false;
   String feedbackText = '';
+  final AudioPlayer _player = AudioPlayer();
+
+  void playAnswerSound(bool isCorrect) async {
+    await _player.stop(); // Stop if already playing
+    final path = isCorrect ? 'images/ding.mp3' : 'images/error.mp3';
+    await _player.play(AssetSource(path));
+  }
 
   void checkAnswer(String selected) {
     final correct = widget.questions[currentIndex].correctAnswer;
     final isCorrect = selected == correct;
+
+    playAnswerSound(isCorrect);
 
     setState(() {
       showFeedback = true;
