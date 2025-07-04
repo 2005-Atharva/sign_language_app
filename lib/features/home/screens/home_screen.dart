@@ -49,55 +49,89 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       // backgroundColor: Color,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: Lottie.asset(Assets.lottieIntro, height: 32, width: 32),
-        title: Text("Learn Signs With Koko"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: GridView.builder(
-          itemCount: categories.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 1.2,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
+        title: Text(
+          "Learn Signs With Koko",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
           ),
-          itemBuilder: (context, index) {
-            final category = categories[index];
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => LearningScreen(
-                      questions: category['questions'],
-                      categoryTitle: category['title'],
-                    ),
-                  ),
-                );
-              },
-              child: Card(
-                color: Colors.blue.shade100,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(category['image'], scale: 6),
-                      SizedBox(height: 4),
-                      Text(
-                        category['title'],
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
+        ),
+        backgroundColor: Color(0x44000000),
+        elevation: 0,
+      ),
+      body: DecoratedBox(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/home_bg.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 0),
+          child: GridView.builder(
+            itemCount: categories.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 1,
+              // childAspectRatio: 1.4,
+              // crossAxisSpacing: 12,
+              // mainAxisSpacing: 12,
+            ),
+            itemBuilder: (context, index) {
+              final category = categories[index];
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => LearningScreen(
+                          questions: category['questions'],
+                          categoryTitle: category['title'],
                         ),
                       ),
-                    ],
+                    );
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      // color: Colors.blue.shade100,
+                      borderRadius: BorderRadius.circular(100),
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/button_quiz.png'),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(category['image'], scale: 7),
+                          SizedBox(height: 4),
+                          Text(
+                            category['title'],
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

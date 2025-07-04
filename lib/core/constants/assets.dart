@@ -1,5 +1,5 @@
 class Assets {
-  static String splashAsset = 'assets/images/splash.svg';
+  static String splashAsset = 'assets/images/1.svg';
 
   static String lottieIntro = 'assets/images/koko_intro.json';
 

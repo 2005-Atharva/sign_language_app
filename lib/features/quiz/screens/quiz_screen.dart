@@ -49,81 +49,121 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         leading: Lottie.asset(Assets.lottieIntro, height: 32, width: 32),
-        title: Text("Practice Signs With Koko"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: GridView.builder(
-          itemCount: categories.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 1.2,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
+        title: Text(
+          "Practice Signs With Koko",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
           ),
-          itemBuilder: (context, index) {
-            final category = categories[index];
-            return Consumer<LevelProvider>(
-              builder: (ctx, levelProv, _) {
-                final unlocked = levelProv.isUnlocked(index);
-                return GestureDetector(
-                  onTap: unlocked
-                      ? () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => LearningScreen2(
-                                questions: category['questions'],
-                                categoryTitle: category['title'],
-                                levelIndex: index,
-                              ),
-                            ),
-                          );
-                        }
-                      : null,
-                  child: Card(
-                    color: unlocked
-                        ? Colors.blue.shade100
-                        : Colors.grey.shade300,
-                    child: Stack(
-                      children: [
-                        Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset('assets/icons/quiz.png', scale: 6),
-                              SizedBox(height: 4),
-                              Text(
-                                category['title'],
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
+        ),
+        backgroundColor: Color(0x44000000),
+        elevation: 0,
+      ),
+      body: DecoratedBox(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/level_home_2.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 120),
+          child: GridView.builder(
+            itemCount: categories.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 1,
+              // childAspectRatio: 1.2,
+              // crossAxisSpacing: 12,
+              // mainAxisSpacing: 12,
+            ),
+            itemBuilder: (context, index) {
+              final category = categories[index];
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                child: Consumer<LevelProvider>(
+                  builder: (ctx, levelProv, _) {
+                    final unlocked = levelProv.isUnlocked(index);
+                    return GestureDetector(
+                      onTap: unlocked
+                          ? () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => LearningScreen2(
+                                    questions: category['questions'],
+                                    categoryTitle: category['title'],
+                                    levelIndex: index,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              );
+                            }
+                          : null,
+                      child: Container(
+                        height: 50,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          color: unlocked
+                              ? const Color.fromARGB(0, 187, 222, 251)
+                              : Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(100),
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/button_quiz.png'),
+                            fit: BoxFit.fill,
                           ),
                         ),
-                        if (!unlocked)
-                          Positioned.fill(
-                            child: Container(
-                              color: Colors.white.withOpacity(0.7),
-                              child: Icon(
-                                Icons.lock,
-                                size: 48,
-                                color: Colors.grey,
+
+                        child: Stack(
+                          children: [
+                            Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/icons/quiz.png',
+                                    scale: 8,
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    category['title'],
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
-          },
+                            if (!unlocked)
+                              Positioned.fill(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.7),
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  child: Icon(
+                                    Icons.lock,
+                                    size: 48,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

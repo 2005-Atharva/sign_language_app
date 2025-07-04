@@ -87,52 +87,76 @@ class _LearningScreenState extends State<LearningScreen2> {
     final currentQ = widget.questions[currentIndex];
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.categoryTitle)),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Expanded(child: Image.asset(currentQ.gifPath)),
-            if (showFeedback)
-              SizedBox(
-                height: 150,
-                child: Lottie.asset(
-                  feedbackText.contains('Correct')
-                      ? 'assets/images/correct.json'
-                      : 'assets/images/wrong.json',
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: Text(
+          widget.categoryTitle,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
+        backgroundColor: Color(0x44000000),
+        elevation: 0,
+      ),
+      body: DecoratedBox(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/level_bg.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Expanded(child: Image.asset(currentQ.gifPath)),
+              if (showFeedback)
+                SizedBox(
+                  height: 150,
+                  child: Lottie.asset(
+                    feedbackText.contains('Correct')
+                        ? 'assets/images/correct.json'
+                        : 'assets/images/wrong.json',
+                  ),
                 ),
-              ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: currentQ.options.map((option) {
-                return Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: GestureDetector(
-                      onTap: () => checkAnswer(option),
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 60,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.purple, width: 1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          option,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: currentQ.options.map((option) {
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: GestureDetector(
+                        onTap: () => checkAnswer(option),
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 80,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            // color: const Color.fromARGB(177, 255, 255, 255),
+                            image: DecorationImage(
+                              image: AssetImage('assets/images/Buttonw.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          child: Text(
+                            option,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              }).toList(),
-            ),
-          ],
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );

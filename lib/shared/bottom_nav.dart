@@ -18,7 +18,7 @@ class BottomNav extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (index) => navigationProvider.changeTab(index),
-        selectedItemColor: const Color.fromARGB(255, 0, 158, 250),
+        selectedItemColor: const Color.fromARGB(255, 0, 194, 26),
         unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),

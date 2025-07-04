@@ -22,9 +22,14 @@ class SettingOptions extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           height: 60,
+          width: 100,
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.purple),
+            // border: Border.all(color: Colors.purple),
             borderRadius: BorderRadius.circular(16),
+            image: DecorationImage(
+              image: AssetImage('assets/images/Buttonw.png'),
+              fit: BoxFit.cover,
+            ),
           ),
           child: Row(
             children: [
